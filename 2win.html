@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Casino Simulation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #0b0c10;
+            color: #c5c6c7;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #1f2833;
+            padding: 20px;
+            text-align: center;
+        }
+        header h1 {
+            margin: 0;
+            color: #66fcf1;
+        }
+        .balance {
+            text-align: center;
+            margin: 20px;
+            font-size: 24px;
+        }
+        .game-container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            padding: 20px;
+        }
+        .game {
+            background-color: #1f2833;
+            border: 2px solid #66fcf1;
+            border-radius: 8px;
+            padding: 20px;
+            width: 300px;
+            text-align: center;
+            margin: 10px;
+            cursor: pointer;
+        }
+        .game h2 {
+            color: #66fcf1;
+        }
+        .btn {
+            background-color: #45a29e;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .btn:hover {
+            background-color: #66fcf1;
+            color: #0b0c10;
+        }
+        .slot-machine {
+            text-align: center;
+            margin-top: 50px;
+        }
+        .slot-machine span {
+            font-size: 48px;
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Welcome to the Casino!</h1>
+    </header>
+    <div class="balance">
+        Balance: <span id="balance">1000</span> Coins
+    </div>
+    <div class="game-container">
+        <div class="game" onclick="openSlot('Slot 1')">
+            <h2>Slot 1</h2>
+        </div>
+        <div class="game" onclick="openSlot('Slot 2')">
+            <h2>Slot 2</h2>
+        </div>
+        <div class="game" onclick="openSlot('Slot 3')">
+            <h2>Slot 3</h2>
+        </div>
+        <div class="game" onclick="openSlot('Slot 4')">
+            <h2>Slot 4</h2>
+        </div>
+        <div class="game" onclick="openSlot('Slot 5')">
+            <h2>Slot 5</h2>
+        </div>
+        <div class="game" onclick="openSlot('Slot 6')">
+            <h2>Slot 6</h2>
+        </div>
+        <div class="game" onclick="openSlot('Slot 7')">
+            <h2>Slot 7</h2>
+        </div>
+    </div>
+
+    <div id="slot-machine" class="slot-machine" style="display: none;">
+        <h2 id="slot-title"></h2>
+        <div>
+            <span id="slot1">🍒</span>
+            <span id="slot2">🍒</span>
+            <span id="slot3">🍒</span>
+        </div>
+        <button class="btn" onclick="playSlot()">Spin</button>
+        <button class="btn" onclick="closeSlot()">Back</button>
+    </div>
+
+    <script>
+        let balance = 1000;
+        
+        function updateBalance() {
+            document.getElementById('balance').textContent = balance;
+        }
+
+        function openSlot(title) {
+            document.querySelector('.game-container').style.display = 'none';
+            const slotMachine = document.getElementById('slot-machine');
+            slotMachine.style.display = 'block';
+            document.getElementById('slot-title').textContent = title;
+        }
+
+        function closeSlot() {
+            document.querySelector('.game-container').style.display = 'flex';
+            document.getElementById('slot-machine').style.display = 'none';
+        }
+
+        function playSlot() {
+            const bet = 50;
+            if (balance < bet) {
+                alert('Not enough balance to play slots!');
+                return;
+            }
+
+            const outcomes = ['🍒', '🍋', '🍊', '🍇', '🔔', '⭐', '💎', '💰'];
+            const slot1 = outcomes[Math.floor(Math.random() * outcomes.length)];
+            const slot2 = outcomes[Math.floor(Math.random() * outcomes.length)];
+            const slot3 = outcomes[Math.floor(Math.random() * outcomes.length)];
+
+            document.getElementById('slot1').textContent = slot1;
+            document.getElementById('slot2').textContent = slot2;
+            document.getElementById('slot3').textContent = slot3;
+
+            if (slot1 === '💰' && slot2 === '💰' && slot3 === '💰') {
+                const jackpot = bet * 2000;
+                balance += jackpot;
+                alert(`JACKPOT! You win ${jackpot} coins!`);
+            } else if (slot1 === slot2 && slot2 === slot3) {
+                const win = bet * 10;
+                balance += win;
+                alert(`Big win! You win ${win} coins!`);
+            } else {
+                balance -= bet;
+                alert('You lose 50 coins!');
+            }
+            updateBalance();
+        }
+    </script>
+</body>
+</html>
